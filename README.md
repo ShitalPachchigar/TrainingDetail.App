@@ -1,0 +1,1 @@
+# TrainingDetail.App
