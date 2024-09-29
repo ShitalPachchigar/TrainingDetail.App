@@ -21,7 +21,6 @@ namespace TrainingDetail.App
 
                 //Load And Parse Json Data
                 var jsonData = File.ReadAllText(inputFile);
-                // var people = JsonConvert.DeserializeObject<List<People>>(jsonData);
                 var people = JsonConvert.DeserializeObject<List<People>>(jsonData, new JsonSerializerSettings
                 {
                     DateFormatString = "M/D/yyyy", // Specify the date format
