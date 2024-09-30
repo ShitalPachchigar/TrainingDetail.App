@@ -16,14 +16,16 @@ namespace TrainingDetail.App
             try
             {
                 //Relative File Paths to ensure Compatability on ant server
-                string AppDirectory = Directory.GetCurrentDirectory();
-                string inputFile = Path.Combine(AppDirectory, @"..\..\..\trainings.txt");
+                
+                string basedirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string appDirectory = Directory.GetParent(basedirectory).Parent.Parent.Parent.FullName;
+                string inputFile = Path.Combine(appDirectory,"trainings.txt");
 
                 //Load And Parse Json Data
                 var jsonData = File.ReadAllText(inputFile);
                 var people = JsonConvert.DeserializeObject<List<People>>(jsonData, new JsonSerializerSettings
                 {
-                    DateFormatString = "M/D/yyyy", // Specify the date format
+                    DateFormatString = "M/D/yyyy", 
                     NullValueHandling = NullValueHandling.Ignore
                 });
 
@@ -40,7 +42,7 @@ namespace TrainingDetail.App
                         .Select(g => new Task1Output { trainingName = g.Key, Count = g.Count() })
                         .ToList();
                 //write output to json file
-                string outputTask1Path = Path.Combine(AppDirectory, @"..\..\..\task1_output.json");
+                string outputTask1Path = Path.Combine(appDirectory, "task1_output.json");
                 File.WriteAllText(outputTask1Path, JsonConvert.SerializeObject(trainingCount, Formatting.Indented));
 
 
@@ -64,7 +66,7 @@ namespace TrainingDetail.App
                     .ToList();
 
                 //Write output to a JSON file
-                string outputTask2Path = Path.Combine(AppDirectory, @"..\..\..\task2_output.json");
+                string outputTask2Path = Path.Combine(appDirectory, "task2_output.json");
                 File.WriteAllText(outputTask2Path, JsonConvert.SerializeObject(trainingsInFiscalYear, Formatting.Indented));
 
 
@@ -82,7 +84,7 @@ namespace TrainingDetail.App
                             .Select(c => new ExpiringTraining
                             {
                                 trainingName = c.name,
-                                expiresOn = c.expires.Value.ToString(@"MM/dd/yyyy"),
+                                expiresOn = c.expires.Value.ToString("MM/dd/yyyy"),
                                 status = c.expires < givenDate ? "Expired" :
                                          (c.expires <= givenDate.AddMonths(1) ? "Expires Soon" : null)
                             })
@@ -93,7 +95,7 @@ namespace TrainingDetail.App
                     .ToList();
 
                 // Write output to a JSON file
-                string outputTask3Path = Path.Combine(AppDirectory, @"..\..\..\task3_output.json");
+                string outputTask3Path = Path.Combine(appDirectory,"task3_output.json");
                 File.WriteAllText(outputTask3Path, JsonConvert.SerializeObject(expiredOrSoon, Formatting.Indented));
 
             }
