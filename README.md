@@ -29,7 +29,7 @@ Press F5 to run the application or click the Start button in Visual Studio.
 
 The app will read the trainings.txt file and produce three output files in the root project folder:
 task1_output.json
-task_output.json
+task2_output.json
 task3_output.json
 
 6. Check Output Files
